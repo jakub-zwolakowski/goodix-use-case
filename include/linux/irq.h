@@ -633,7 +633,12 @@ static inline unsigned int irq_alloc_hwirq(int node)
 void irq_free_hwirqs(unsigned int from, int cnt);
 static inline void irq_free_hwirq(unsigned int irq)
 {
+#ifdef __TRUSTINSOFT_BUGFIX__
+    // This function should not return anything.
+	irq_free_hwirqs(irq, 1);
+#else
 	return irq_free_hwirqs(irq, 1);
+#endif
 }
 int arch_setup_hwirq(unsigned int irq, int node);
 void arch_teardown_hwirq(unsigned int irq);

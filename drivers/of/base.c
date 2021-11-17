@@ -1213,8 +1213,10 @@ int of_property_read_u32_array(const struct device_node *np,
 	const __be32 *val = of_find_property_value_of_size(np, propname,
 						(sz * sizeof(*out_values)));
 
+#ifndef __TRUSTINSOFT_ANALYZER__
 	if (IS_ERR(val))
 		return PTR_ERR(val);
+#endif
 
 	while (sz--)
 		*out_values++ = be32_to_cpup(val++);

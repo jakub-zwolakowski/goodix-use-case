@@ -309,8 +309,14 @@ nput:
 Output:
     Return write length.
 ********************************************************/
+#ifdef __TRUSTINSOFT_BUGFIX__
+// Adjust the return type.
+static ssize_t goodix_tool_write(struct file *filp, const char __user *userbuf,
+						size_t count, loff_t *ppos)
+#else
 static s32 goodix_tool_write(struct file *filp, const char __user *userbuf,
 						size_t count, loff_t *ppos)
+#endif
 {
 	s32 ret = 0;
 
@@ -478,8 +484,14 @@ Input:
 Output:
     Return read length.
 ********************************************************/
+#ifdef __TRUSTINSOFT_BUGFIX__
+// Adjust the return type
+static ssize_t goodix_tool_read(struct file *file, char __user *user_buf,
+					size_t count, loff_t *ppos)
+#else
 static s32 goodix_tool_read(struct file *file, char __user *user_buf,
 					size_t count, loff_t *ppos)
+#endif
 {
 	u16 data_len = 0;
 	s32 ret;

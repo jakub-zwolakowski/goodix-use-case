@@ -20,14 +20,23 @@
 
 #if __LINUX_ARM_ARCH__ >= 6
 
+#ifdef __TRUSTINSOFT_ANALYZER__
+#include "tis_builtin.h" // We need this for tis_make_unknown.
+#endif
+
 static inline unsigned long arch_local_irq_save(void)
 {
 	unsigned long flags;
 
+#ifdef __TRUSTINSOFT_ANALYZER__
+	// Stub the assembler.
+	tis_make_unknown(&flags, sizeof flags);
+#else
 	asm volatile(
 		"	mrs	%0, " IRQMASK_REG_NAME_R "	@ arch_local_irq_save\n"
 		"	cpsid	i"
 		: "=r" (flags) : : "memory", "cc");
+#endif
 	return flags;
 }
 

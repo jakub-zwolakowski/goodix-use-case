@@ -29,7 +29,13 @@ static inline __attribute_const__ __u32 __arch_swahb32(__u32 x)
 
 static inline __attribute_const__ __u32 __arch_swab32(__u32 x)
 {
+#ifdef __TRUSTINSOFT_ANALYZER__
+	// Stub the assembler.
+	x = ((x << 8) & 0xFF00FF00 ) | ((x >> 8) & 0xFF00FF );
+	x = (x << 16) | (x >> 16);
+#else
 	__asm__ ("rev %0, %1" : "=r" (x) : "r" (x));
+#endif
 	return x;
 }
 #define __arch_swab32 __arch_swab32

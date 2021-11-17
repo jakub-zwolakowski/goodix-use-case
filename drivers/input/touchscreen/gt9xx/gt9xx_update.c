@@ -689,6 +689,9 @@ static u8 gup_check_firmware_name(struct i2c_client *client,
 static u8 gup_check_update_file(struct i2c_client *client,
 			struct st_fw_head *fw_head, u8 *path)
 {
+#ifdef __TRUSTINSOFT_ANALYZER__
+	return SUCCESS;
+#endif
 	s32 ret = 0;
 	s32 i = 0;
 	s32 fw_checksum = 0;

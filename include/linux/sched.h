@@ -2732,7 +2732,9 @@ static inline struct sighand_struct *lock_task_sighand(struct task_struct *tsk,
 	struct sighand_struct *ret;
 
 	ret = __lock_task_sighand(tsk, flags);
+#ifndef __TRUSTINSOFT_ANALYZER__
 	(void)__cond_lock(&tsk->sighand->siglock, ret);
+#endif
 	return ret;
 }
 

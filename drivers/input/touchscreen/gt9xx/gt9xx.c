@@ -46,11 +46,20 @@
 #include <linux/regulator/consumer.h>
 #include "gt9xx.h"
 
+#ifdef __TRUSTINSOFT_ANALYZER__
+// We need this to have a prototype for request_threaded_irq.
+#include <linux/interrupt.h>
+#endif
 #include <linux/of_gpio.h>
 #include <linux/irq.h>
 #include <linux/module.h>
 #include <linux/input/mt.h>
 #include <linux/debugfs.h>
+#ifdef __TRUSTINSOFT_ANALYZER__
+void *tis_memcpy(void *dest, const void *src, size_t n);
+#define __builtin_memcpy tis_memcpy
+static inline void kfree(void *p);
+#endif
 
 #define GOODIX_DEV_NAME	"Goodix-CTP"
 #define CFG_MAX_TOUCH_POINTS	5
@@ -2531,7 +2540,11 @@ Input:
 Output:
     Executive Outcomes. 0---succeed.
 ********************************************************/
+#ifdef __TRUSTINSOFT_ANALYZER__
+int __init goodix_ts_init(void)
+#else
 static int __init goodix_ts_init(void)
+#endif
 {
 	int ret;
 

@@ -6,8 +6,14 @@
 
 static inline __attribute_const__ __u32 __arch_swab32(__u32 val)
 {
+#ifdef __TRUSTINSOFT_ANALYZER__
+	// Stub the assembler.
+    val = ((val << 8) & 0xFF00FF00 ) | ((val >> 8) & 0xFF00FF );
+    return (val << 16) | (val >> 16);
+#else
 	asm("bswapl %0" : "=r" (val) : "0" (val));
 	return val;
+#endif
 }
 #define __arch_swab32 __arch_swab32
 

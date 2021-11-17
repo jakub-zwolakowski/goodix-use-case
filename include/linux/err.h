@@ -18,7 +18,22 @@
 
 #ifndef __ASSEMBLY__
 
+#ifdef __TRUSTINSOFT_ANALYZER__
+/*@
+  ensures \result == 0 || \result == 1;
+  assigns \result \from p;
+  behavior tis_err:
+   assumes \base_addr(p) == \null;
+   ensures\result == 1;
+  behavior tis_ok:
+   assumes \base_addr(p) != \null;
+   ensures\result == 0;
+*/
+int tis_is_err_value(void *p);
+#define IS_ERR_VALUE(x) tis_is_err_value(x)
+#else
 #define IS_ERR_VALUE(x) unlikely((x) >= (unsigned long)-MAX_ERRNO)
+#endif
 
 static inline void * __must_check ERR_PTR(long error)
 {

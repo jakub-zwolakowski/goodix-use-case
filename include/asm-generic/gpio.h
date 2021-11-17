@@ -83,7 +83,12 @@ static inline int gpio_get_value_cansleep(unsigned gpio)
 }
 static inline void gpio_set_value_cansleep(unsigned gpio, int value)
 {
+#ifdef __TRUSTINSOFT_BUGFIX__
+	// This function should not return anything.
+	gpiod_set_raw_value_cansleep(gpio_to_desc(gpio), value);
+#else
 	return gpiod_set_raw_value_cansleep(gpio_to_desc(gpio), value);
+#endif
 }
 
 
@@ -97,7 +102,12 @@ static inline int __gpio_get_value(unsigned gpio)
 }
 static inline void __gpio_set_value(unsigned gpio, int value)
 {
+#ifdef __TRUSTINSOFT_BUGFIX__
+	// This function should not return anything.
+	gpiod_set_raw_value(gpio_to_desc(gpio), value);
+#else
 	return gpiod_set_raw_value(gpio_to_desc(gpio), value);
+#endif
 }
 
 static inline int __gpio_cansleep(unsigned gpio)

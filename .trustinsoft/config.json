@@ -1,0 +1,65 @@
+[
+    {
+        "name": "Init & Probe",
+        "include": "common.json"
+    },
+    {
+        "name": "Scenario 1 (IRQ) - no UB",
+        "include": "common.json",
+        "cpp-extra-args": [
+            "-D TIS_SCENARIO_IRQ"
+        ]
+    },
+    {
+        "name": "Scenario 2 (proc) - no UB",
+        "include": "common.json",
+        "cpp-extra-args": [
+            "-D TIS_SCENARIO_PROC",
+            "-D TIS_WR=0",
+            "-D TIS_FLAG=0",
+            "-D TIS_ADDR_LEN=2",
+            "-D TIS_DATA_LEN=256"
+        ]
+    },
+    {
+        "name": "Scenario 2 (proc) - UB#1 - with abstract addr_len",
+        "include": "common.json",
+        "cpp-extra-args": [
+            "-D TIS_SCENARIO_PROC",
+            "-D TIS_WR=0",
+            "-D TIS_FLAG=0",
+            "-D TIS_DATA_LEN=256"
+        ]
+    },
+    {
+        "name": "Scenario 2 (proc) - UB#1 - with addr_len = 10",
+        "include": "common.json",
+        "cpp-extra-args": [
+            "-D TIS_SCENARIO_PROC",
+            "-D TIS_WR=0",
+            "-D TIS_FLAG=0",
+            "-D TIS_ADDR_LEN=10",
+            "-D TIS_DATA_LEN=256"
+        ]
+    },
+    {
+        "name": "Scenario 2 (proc) - UB#2 - with flag = 1",
+        "include": "common.json",
+        "cpp-extra-args": [
+            "-D TIS_SCENARIO_PROC",
+            "-D TIS_WR=0",
+            "-D TIS_FLAG=1",
+            "-D TIS_ADDR_LEN=2",
+            "-D TIS_DATA_LEN=256"
+        ]
+    },
+    {
+        "name": "Scenario 2 (proc) - UB#3",
+        "include": "common.json",
+        "cpp-extra-args": [
+            "-D TIS_SCENARIO_PROC",
+            "-D TIS_FLAG=0",
+            "-D TIS_ADDR_LEN=2"
+        ]
+    }
+]

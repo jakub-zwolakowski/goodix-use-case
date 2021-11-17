@@ -446,7 +446,12 @@ static inline int __must_check class_create_file(struct class *class,
 static inline void class_remove_file(struct class *class,
 				     const struct class_attribute *attr)
 {
+#ifdef __TRUSTINSOFT_BUGFIX__
+	// This function should not return anything.
+	class_remove_file_ns(class, attr, NULL);
+#else
 	return class_remove_file_ns(class, attr, NULL);
+#endif
 }
 
 /* Simple class attribute that is just a static string */

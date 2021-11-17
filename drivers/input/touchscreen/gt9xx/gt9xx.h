@@ -213,7 +213,12 @@ void gtp_irq_disable(struct goodix_ts_data *ts);
 void gtp_irq_enable(struct goodix_ts_data *ts);
 
 #ifdef CONFIG_GT9XX_TOUCHPANEL_DEBUG
+#ifdef __TRUSTINSOFT_BUGFIX__
+// Adjust the return type.
 s32 init_wr_node(struct i2c_client *client);
+#else
+size_t init_wr_node(struct i2c_client *client);
+#endif
 void uninit_wr_node(void);
 #endif
 

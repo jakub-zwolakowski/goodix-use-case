@@ -269,7 +269,11 @@ static inline void set_fs(mm_segment_t fs)
 
 #endif /* CONFIG_MMU */
 
+#ifdef __TRUSTINSOFT_ANALYZER__
+#define access_ok(type,addr,size)   (0 == 0)
+#else
 #define access_ok(type,addr,size)	(__range_ok(addr,size) == 0)
+#endif
 
 #define user_addr_max() \
 	(segment_eq(get_fs(), KERNEL_DS) ? ~0UL : get_fs())

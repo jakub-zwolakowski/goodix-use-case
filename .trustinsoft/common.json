@@ -1,0 +1,63 @@
+{
+    "prefix_path": "..",
+    "files": [
+        "tis_driver.c",
+        "drivers/of/base.c",
+        "drivers/input/touchscreen/gt9xx/gt9xx.c",
+        "drivers/input/touchscreen/gt9xx/goodix_tool.c",
+        "drivers/input/touchscreen/gt9xx/gt9xx_update.c"
+    ],
+    "machdep": "gcc_arm_eabi",
+    "val-profile": "analyzer",
+    "val": true,
+    "slevel": 100,
+    "slevel-function": {
+        "gtp_init_panel": 200,
+        "goodix_ts_work_func": 100,
+        "comfirm": 200
+    },
+    "plevel": 200000,
+    "val-malloc-plevel": 100,
+    "value-messages": true,
+    "val-warn-copy-indeterminate": "@all",
+    "aggressive-merging": "both",
+    "val-stop-on-pointer-library-function": true,
+    "val-slevel-merge-after-loop": "-@all",
+    "val-split-return": "full",
+    "val-malloc-functions": [
+        "kzalloc",
+        "devm_kmalloc",
+        "devm_kzalloc",
+        "calloc",
+        "__kmalloc",
+        "kmalloc",
+        "kmalloc_array",
+        "kcalloc",
+        "malloc"
+    ],
+    "val-slevel-results": true,
+    "val-builtin": {
+        "__builtin_memcpy": "tis_memcpy",
+        "__memzero": "tis_bzero",
+        "bzero": "tis_bzero"
+    },
+    "cpp-extra-args": [
+        "-D __CHECKER__",
+        "-nostdinc",
+        "-isystem .trustinsoft/gcc-arm-none-eabi-4_9-2015q3/lib/gcc/arm-none-eabi/4.9.3/include",
+        "-I ./arch/arm/include",
+        "-I arch/arm/include/generated",
+        "-I include",
+        "-I ./arch/arm/include/uapi",
+        "-I arch/arm/include/generated/uapi",
+        "-I ./include/uapi",
+        "-I include/generated/uapi",
+        "-include ./include/linux/kconfig.h",
+        "-D __KERNEL__",
+        "-D __LINUX_ARM_ARCH__=7",
+        "-U arm",
+        "-DKBUILD_STR(s)=#s",
+        "-DKBUILD_BASENAME=KBUILD_STR(gt9xx)",
+        "-DKBUILD_MODNAME=KBUILD_STR(gt9xx)"
+    ]
+}
