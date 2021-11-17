@@ -173,6 +173,24 @@ static s32 tool_i2c_write_with_extra(u8 *buf, u16 len)
 
 static void register_i2c_func(void)
 {
+#ifdef __TRUSTINSOFT_BUGFIX__
+    /* Theoretically if one of the arguments to strcmp is not a valid string,
+	   behavior is undefined. And as the content of ic_type comes from
+	   outside, we cannot guarantee that it contains a valid null-terminated
+	   string. */
+	if (strncmp(ic_type, "GT8110", 6) && strncmp(ic_type, "GT8105", 6)
+	&& strncmp(ic_type, "GT801", 5) && strncmp(ic_type, "GT800", 5)
+	&& strncmp(ic_type, "GT801PLUS", 9) && strncmp(ic_type, "GT811", 5)
+	&& strncmp(ic_type, "GTxxx", 5)) {
+		tool_i2c_read = tool_i2c_read_with_extra;
+		tool_i2c_write = tool_i2c_write_with_extra;
+		pr_debug("I2C function: with pre and end cmd!");
+	} else {
+		tool_i2c_read = tool_i2c_read_no_extra;
+		tool_i2c_write = tool_i2c_write_no_extra;
+		pr_info("I2C function: without pre and end cmd!");
+	}
+#else
 	if (strcmp(ic_type, "GT8110") && strcmp(ic_type, "GT8105")
 	&& strcmp(ic_type, "GT801") && strcmp(ic_type, "GT800")
 	&& strcmp(ic_type, "GT801PLUS") && strcmp(ic_type, "GT811")
@@ -185,6 +203,7 @@ static void register_i2c_func(void)
 		tool_i2c_write = tool_i2c_write_no_extra;
 		pr_info("I2C function: without pre and end cmd!");
 	}
+#endif
 }
 
 static void unregister_i2c_func(void)
