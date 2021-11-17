@@ -2092,7 +2092,15 @@ static int goodix_ts_probe(struct i2c_client *client,
 		gtp_irq_enable(ts);
 
 #ifdef CONFIG_GT9XX_TOUCHPANEL_DEBUG
+#ifdef __TRUSTINSOFT_BUGFIX__
+	/* In the init_wr_node function the memory allocation can fail. If we
+	   continue the execution in such case then we hit an UB later on. */
+	if(init_wr_node(client) != SUCCESS) {
+		return -ENOMEM;
+	}
+#else
 	init_wr_node(client);
+#endif
 #endif
 
 #if GTP_ESD_PROTECT
