@@ -36,6 +36,10 @@
 * IRQ
 * I2C
 
+## Video
+
+[Demo during the Webinar Nov 2021](https://youtu.be/vRCNAj3pEYw?t=891)
+
 ## Script
 
 ### About the Goodix chip
